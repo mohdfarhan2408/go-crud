@@ -1,31 +1,26 @@
 package main
 
 import (
-	"log"
+	
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"Projects/go-crud/initializers"
 	
 )
 
 
 func init() {
-	err := godotenv.Load()
 
-	if err != nil {
-		log.Fatal("Error loading .env file")
-  }
+	initializers.LoadEnvVariables()
+	initializers.ConnectToDB()
 
 }
 
 func main() {
 	r := gin.Default()
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	r.POST("/posts", controllers.PostsCreate)
 
 	r.Run() 
 }
